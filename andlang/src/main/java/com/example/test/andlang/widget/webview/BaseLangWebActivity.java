@@ -1,6 +1,8 @@
 package com.example.test.andlang.widget.webview;
 
 import android.content.Intent;
+//import android.databinding.DataBindingUtil;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
