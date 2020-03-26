@@ -1,13 +1,7 @@
 package com.lang.andlang2.model.api;
 
+import android.databinding.ObservableField;
+
 public class MainBean {
-    private String title;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public ObservableField<String> title=new ObservableField<>();
 }

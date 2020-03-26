@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data class=".MainBinding">
         <variable
-            name="mybean"
+            name="myBean"
             type="com.lang.andlang2.model.api.MainBean"/>
     </data>
 
@@ -23,13 +24,14 @@
 
             <TextView
                 android:id="@+id/tv_text_value"
+                android:text="@{myBean.title,default=测试}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{mybean.title,default=测试}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <Button
                 android:id="@+id/btn_change"
                 android:layout_below="@+id/tv_text_value"
@@ -38,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="修改"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true" />
 
             <include layout="@layout/lang_common_loading" />
         </RelativeLayout>

@@ -30,7 +30,7 @@ public class AndLangApp extends BaseLangApplication {
         initCrashLog("/andlang/crash/");
 
         //安装防崩溃功能
-        installCockroach();//最大化防止应用crash  需要在清单中注册DebugSafeModeTipActivity
+//        installCockroach();//最大化防止应用crash  需要在清单中注册DebugSafeModeTipActivity
 
         //图片临时存储文件夹名称
         initCacheName("andlang");

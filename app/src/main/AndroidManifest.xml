@@ -17,6 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 调试crash Activity -->
+        <activity
+            android:name="com.example.test.andlang.cockroach.DebugSafeModeTipActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.test.andlang.test.LangTestActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!-- end 调试crash Activity -->
     </application>
 
 </manifest>
