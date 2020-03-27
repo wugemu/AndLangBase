@@ -2,6 +2,8 @@ package com.example.test.andlang.andlangutil;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.hardware.SensorEvent;
 import android.os.Bundle;
@@ -43,8 +45,9 @@ import butterknife.ButterKnife;
  * Created by lang on 18-3-7.
  */
 
-public abstract class BaseLangActivity<T extends BaseLangPresenter> extends AppCompatActivity{
+public abstract class BaseLangActivity<T extends BaseLangPresenter,K extends ViewDataBinding> extends AppCompatActivity{
     public T presenter;
+    public K viewDataBind;
     public RelativeLayout rlLoading;
     private ImageView ivLoading;
 

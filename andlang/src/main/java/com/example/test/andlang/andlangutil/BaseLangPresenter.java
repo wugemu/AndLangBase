@@ -1,5 +1,6 @@
 package com.example.test.andlang.andlangutil;
 
+import android.databinding.ViewDataBinding;
 import android.util.Log;
 import android.view.View;
 
@@ -11,18 +12,21 @@ import com.example.test.andlang.util.LogUtil;
 
 public abstract class BaseLangPresenter {
     public static String TAG=BaseLangApplication.TAG;
+    public ViewDataBinding viewData;
     public BaseLangActivity activity;
     public BaseLangFragment fragment;
-    public BaseLangPresenter(BaseLangActivity activity){
+    public BaseLangPresenter(BaseLangActivity activity,ViewDataBinding viewData){
         try {
+            this.viewData=viewData;
             this.activity=activity;
         }catch (Exception e){
             Log.d("0.0",e.getMessage());
         }
         initModel();
     }
-    public BaseLangPresenter(BaseLangFragment fragment,BaseLangActivity activity){
+    public BaseLangPresenter(BaseLangFragment fragment,BaseLangActivity activity,ViewDataBinding viewData){
         try {
+            this.viewData=viewData;
             this.activity=activity;
             this.fragment=fragment;
         }catch (Exception e){

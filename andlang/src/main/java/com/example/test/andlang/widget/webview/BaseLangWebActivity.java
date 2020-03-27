@@ -20,6 +20,7 @@ import com.example.test.andlang.util.ActivityUtil;
 import com.example.test.andlang.util.BaseLangUtil;
 import com.example.test.andlang.util.ToastUtil;
 import com.example.test.andlang.util.VersionUtil;
+import com.example.test.andlang2.BaseLangWebBinding;
 
 import java.util.HashMap;
 import java.util.Observable;
@@ -30,7 +31,7 @@ import butterknife.BindView;
  * Created by root on 18-4-2.
  */
 
-public abstract class BaseLangWebActivity extends BaseLangActivity<BaseLangPresenter> {
+public abstract class BaseLangWebActivity extends BaseLangActivity<BaseLangPresenter,BaseLangWebBinding> {
     @BindView(R2.id.baselang_webview)
     WebView baselang_webview;
 
@@ -38,7 +39,7 @@ public abstract class BaseLangWebActivity extends BaseLangActivity<BaseLangPrese
 
     @Override
     public void dataBindingView() {
-        DataBindingUtil.setContentView(this,R.layout.activity_baselang_web);
+        viewDataBind=DataBindingUtil.setContentView(this,R.layout.activity_baselang_web);
     }
 
     @Override
