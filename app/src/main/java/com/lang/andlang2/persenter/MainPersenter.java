@@ -1,5 +1,7 @@
 package com.lang.andlang2.persenter;
 
+import android.databinding.ViewDataBinding;
+
 import com.example.test.andlang.andlangutil.BaseLangActivity;
 import com.example.test.andlang.andlangutil.BaseLangPresenter;
 import com.example.test.andlang.util.ToastUtil;
@@ -8,8 +10,9 @@ import com.lang.andlang2.util.Constants;
 
 public class MainPersenter extends BaseLangPresenter{
     private  MainModel mainModel;
-    public MainPersenter(BaseLangActivity activity) {
-        super(activity);
+
+    public MainPersenter(BaseLangActivity activity, ViewDataBinding viewData) {
+        super(activity, viewData);
     }
 
     @Override

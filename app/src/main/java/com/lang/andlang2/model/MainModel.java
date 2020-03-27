@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainModel extends BaseLangViewModel{
+    public String result;
     public MainModel(BaseLangActivity activity, BaseLangPresenter presenter) {
         super(activity, presenter);
     }
@@ -21,6 +22,7 @@ public class MainModel extends BaseLangViewModel{
         BaseHttpUtil.getHttp(activity, Constants.GET_VERSION, param, String.class, new LangHttpInterface<String>() {
             @Override
             public void success(String response) {
+                result=response;
                 presenter.notifyView(tag);
             }
 

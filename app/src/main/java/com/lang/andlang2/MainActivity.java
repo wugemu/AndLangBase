@@ -14,24 +14,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseLangActivity<MainPersenter> {
+public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
     @BindView(R.id.tv_text_value)
     TextView tv_text_value;
     private MainBean mainBean;
-    private MainBinding mainBinding;
     @Override
     public void notifyView(String tag) {
         if(Constants.GET_VERSION.equals(tag)){
             ToastUtil.show(MainActivity.this,"请求结果返回");
         }
     }
-
     @Override
     public void dataBindingView() {
-        mainBinding= DataBindingUtil.setContentView(this,R.layout.activity_main_test);
+        viewDataBind=DataBindingUtil.setContentView(this,R.layout.activity_main_test);
         mainBean=new MainBean();
         mainBean.title.set("测试测试11111");
-        mainBinding.setMyBean(mainBean);
+        viewDataBind.setMyBean(mainBean);
     }
 
     @Override
@@ -43,7 +41,7 @@ public class MainActivity extends BaseLangActivity<MainPersenter> {
 
     @Override
     public void initPresenter() {
-        presenter=new MainPersenter(MainActivity.this);
+        presenter=new MainPersenter(MainActivity.this,viewDataBind);
     }
 
     @Override
@@ -55,7 +53,7 @@ public class MainActivity extends BaseLangActivity<MainPersenter> {
     @OnClick(R.id.btn_change)
     public void clickChangeBtn(){
         //修改
-        mainBinding.getMyBean().title.set("点击修改按钮");
+        viewDataBind.getMyBean().title.set("点击修改按钮");
         ToastUtil.show(MainActivity.this,mainBean.title.get());
     }
 
