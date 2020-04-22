@@ -293,6 +293,7 @@ public class HttpU {
 
         Call call = mOkHttpClient.newCall(request);
 
+        BaseLangUtil.isMainThread("get::call");
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -301,6 +302,7 @@ public class HttpU {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
+                BaseLangUtil.isMainThread("get::onResponse");
                 onMyResponse(response,context,reqUrl,callback,request,useLocalCache,CacheUtil.isCacheData(context,Constants.INDEX_CACHE_DATA+reqUrl));
             }
         });

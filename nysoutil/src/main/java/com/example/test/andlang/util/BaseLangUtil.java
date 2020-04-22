@@ -15,6 +15,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Looper;
 import android.provider.Settings;
 import android.support.v4.app.NotificationManagerCompat;
 import android.telephony.TelephonyManager;
@@ -429,6 +430,17 @@ public class BaseLangUtil {
             }
         }
         return false;
+    }
+
+    //判断当前是否在UI线程
+    public static boolean isMainThread(String tag){
+        boolean isMain= Thread.currentThread() == Looper.getMainLooper().getThread();
+        if(isMain){
+            LogUtil.e("0.0","主主主主线程处理"+tag);
+        }else {
+            LogUtil.e("0.0","子子子子线程处理"+tag);
+        }
+        return isMain;
     }
 
 }
