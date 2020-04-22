@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.widget.TextView;
 
 import com.example.test.andlang.andlangutil.BaseLangActivity;
+import com.example.test.andlang.util.BaseLangUtil;
 import com.example.test.andlang.util.LogUtil;
 import com.example.test.andlang.util.ToastUtil;
 import com.lang.andlang2.model.api.MainBean;
@@ -21,7 +22,9 @@ public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
     @Override
     public void notifyView(String tag) {
         if(Constants.GET_VERSION.equals(tag)){
+            BaseLangUtil.isMainThread("MainActivity::notifyView");
             ToastUtil.show(MainActivity.this,"请求结果返回");
+            tv_text_value.setText("请求结果返回");
         }
     }
     @Override
@@ -55,6 +58,9 @@ public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
         //修改
         viewDataBind.getMyBean().title.set("点击修改按钮");
         ToastUtil.show(MainActivity.this,mainBean.title.get());
+
+        showWaitDialog();
+        presenter.reqVersion();
     }
 
 }

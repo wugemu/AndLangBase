@@ -177,35 +177,42 @@ public class BaseHttpUtil {
             }
 
             @Override
-            public void onResponse(String response,boolean useLocalCache,boolean haveLocalCache,String cacheUrl) {
-                try {
-                    //网络正常
-                    if(BaseLangUtil.isEmpty(response)){
-                        if(listener!=null) {
-                            listener.empty();
-                        }
-                    } else{
-                        if (JsonParseUtil.isSuccessResponse(response)) {
-                            String result=JsonParseUtil.getStringValue(response,"result");
-                            if(listener!=null) {
-                                if(type==String.class){
-                                    listener.success(result);
+            public void onResponse(final String response,boolean useLocalCache,boolean haveLocalCache,String cacheUrl) {
+                new ThreadTask<Object>(){
+
+                    @Override
+                    public Object onDoInBackground() {
+                        try {
+                            //网络正常
+                            if(BaseLangUtil.isEmpty(response)){
+                                if(listener!=null) {
+                                    listener.empty();
+                                }
+                            } else{
+                                if (JsonParseUtil.isSuccessResponse(response)) {
+                                    String result=JsonParseUtil.getStringValue(response,"result");
+                                    if(listener!=null) {
+                                        if(type==String.class){
+                                            listener.success(result);
+                                        }else {
+                                            listener.success(gson.fromJson(result, type));
+                                        }
+                                    }
                                 }else {
-                                    listener.success(gson.fromJson(result, type));
+                                    listener.fail();
                                 }
                             }
-                        }else {
-                            listener.fail();
+                        }catch (Exception e){
+                            if(!BaseLangUtil.isEmpty(e.getMessage())) {
+                                LogUtil.e("0.0", e.getMessage());
+                            }
+                            if(listener!=null) {
+                                listener.error();
+                            }
                         }
+                        return null;
                     }
-                }catch (Exception e){
-                    if(!BaseLangUtil.isEmpty(e.getMessage())) {
-                        LogUtil.e("0.0", e.getMessage());
-                    }
-                    if(listener!=null) {
-                        listener.error();
-                    }
-                }
+                }.execute();
             }
 
             @Override
@@ -244,30 +251,36 @@ public class BaseHttpUtil {
 
         HttpU.getInstance().get(context, Constants.HOST+url, params,useLocalCache, new HttpCallback() {
             @Override
-            public void onCacheData(String cache) {
+            public void onCacheData(final String cache) {
+                BaseLangUtil.isMainThread("getHttp::onCacheData");
                 super.onCacheData(cache);
                 if(filterLoadingUrl(url)) {
                     //排除部分链接不取消加载
                     context.dismissWaitDialog();
                 }
-                try {
-                    //网络正常
-                    if(!BaseLangUtil.isEmpty(cache)){
-                        if (JsonParseUtil.isSuccessResponse(cache)) {
-                            String result=JsonParseUtil.getStringValue(cache,"result");
-                            if(listener!=null) {
-                                if(type==String.class){
-                                    listener.success(result);
-                                }else {
-                                    listener.success(gson.fromJson(result, type));
+                new ThreadTask<Object>(){
+                    @Override
+                    public Object onDoInBackground() {
+                        try {
+                            //网络正常
+                            if(!BaseLangUtil.isEmpty(cache)){
+                                if (JsonParseUtil.isSuccessResponse(cache)) {
+                                    String result=JsonParseUtil.getStringValue(cache,"result");
+                                    if(listener!=null) {
+                                        if(type==String.class){
+                                            listener.success(result);
+                                        }else {
+                                            listener.success(gson.fromJson(result, type));
+                                        }
+                                    }
                                 }
                             }
+                        }catch (Exception e){
+
                         }
+                        return null;
                     }
-                }catch (Exception e){
-
-                }
-
+                }.execute();
             }
 
             @Override
@@ -278,6 +291,7 @@ public class BaseHttpUtil {
             @Override
             public void onAfter() {
                 super.onAfter();
+                BaseLangUtil.isMainThread("getHttp::onAfter");
                 if(filterLoadingUrl(url)) {
                     //排除部分链接不取消加载
                     context.dismissWaitDialog();
@@ -285,52 +299,60 @@ public class BaseHttpUtil {
             }
 
             @Override
-            public void onResponse(String response,boolean useLocalCache,boolean haveLocalCache,String cacheUrl) {
-                try {
-                    //网络正常
-                    if(BaseLangUtil.isEmpty(response)){
-                        if(listener!=null) {
-                            listener.empty();
-                        }
-                    } else{
-                        if (JsonParseUtil.isSuccessResponse(response)) {
-                            String result=JsonParseUtil.getStringValue(response,"result");
-                            boolean equalCache=false;
-                            if(useLocalCache){
-                                if(haveLocalCache){
-                                    String cache= CacheUtil.getCacheData(context,cacheUrl);
-                                    String resultCache=JsonParseUtil.getStringValue(cache,"result");
-                                    if(result.equals(resultCache)){
-                                        equalCache=true;
-                                        LogUtil.w("0.0","本地缓存和网络返回数据相同---url："+cacheUrl);
-                                    }
-                                }
-                            }
+            public void onResponse(final String response,final boolean useLocalCache,final boolean haveLocalCache,final String cacheUrl) {
+                new ThreadTask<Object>(){
 
-                            //测试
+                    @Override
+                    public Object onDoInBackground() {
+                        BaseLangUtil.isMainThread("ThreadTask::onDoInBackground");
+                        try {
+                            //网络正常
+                            if(BaseLangUtil.isEmpty(response)){
+                                if(listener!=null) {
+                                    listener.empty();
+                                }
+                            } else{
+                                if (JsonParseUtil.isSuccessResponse(response)) {
+                                    String result=JsonParseUtil.getStringValue(response,"result");
+                                    boolean equalCache=false;
+                                    if(useLocalCache){
+                                        if(haveLocalCache){
+                                            String cache= CacheUtil.getCacheData(context,cacheUrl);
+                                            String resultCache=JsonParseUtil.getStringValue(cache,"result");
+                                            if(result.equals(resultCache)){
+                                                equalCache=true;
+                                                LogUtil.w("0.0","本地缓存和网络返回数据相同---url："+cacheUrl);
+                                            }
+                                        }
+                                    }
+
+                                    //测试
 //                            equalCache=false;
 
-                            //网络返回报文和本地缓存报文不一致时 网络请求进行回调
-                            if(listener!=null&&!equalCache) {
-                                if(type==String.class){
-                                    listener.success(result);
+                                    //网络返回报文和本地缓存报文不一致时 网络请求进行回调
+                                    if(listener!=null&&!equalCache) {
+                                        if(type==String.class){
+                                            listener.success(result);
+                                        }else {
+                                            listener.success(gson.fromJson(result, type));
+                                        }
+                                    }
                                 }else {
-                                    listener.success(gson.fromJson(result, type));
+                                    listener.fail();
                                 }
                             }
-                        }else {
-                            listener.fail();
+                        }catch (Exception e){
+                            if(!BaseLangUtil.isEmpty(e.getMessage())) {
+                                LogUtil.e("0.0", e.getMessage());
+                            }
+                            context.dismissWaitDialog();
+                            if(listener!=null) {
+                                listener.error();
+                            }
                         }
+                        return null;
                     }
-                }catch (Exception e){
-                    if(!BaseLangUtil.isEmpty(e.getMessage())) {
-                        LogUtil.e("0.0", e.getMessage());
-                    }
-                    context.dismissWaitDialog();
-                    if(listener!=null) {
-                        listener.error();
-                    }
-                }
+                }.execute();
             }
 
             @Override

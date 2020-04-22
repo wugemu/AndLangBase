@@ -4,6 +4,7 @@ import com.example.test.andlang.andlangutil.BaseLangActivity;
 import com.example.test.andlang.andlangutil.BaseLangPresenter;
 import com.example.test.andlang.andlangutil.BaseLangViewModel;
 import com.example.test.andlang.andlangutil.LangHttpInterface;
+import com.example.test.andlang.util.BaseLangUtil;
 import com.lang.andlang2.util.BaseHttpUtil;
 import com.lang.andlang2.util.Constants;
 
@@ -22,6 +23,7 @@ public class MainModel extends BaseLangViewModel{
         BaseHttpUtil.getHttp(activity, Constants.GET_VERSION, param, String.class, new LangHttpInterface<String>() {
             @Override
             public void success(String response) {
+                BaseLangUtil.isMainThread("reqVersion::success");
                 result=response;
                 presenter.notifyView(tag);
             }
