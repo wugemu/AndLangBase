@@ -37,13 +37,20 @@ public abstract class BaseLangPresenter {
 
     public abstract void initModel();
 
-    public void notifyView(String tag){
-        if(fragment!=null){
-            fragment.notifyView(tag);
-        }else if(activity!=null){
-            activity.notifyView(tag);
-        }else {
-            LogUtil.e("0.0","error:请求回调失败！！！");
+    public void notifyView(final String tag){
+        if(activity!=null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(fragment!=null){
+                        fragment.notifyView(tag);
+                    }else if(activity!=null){
+                        activity.notifyView(tag);
+                    }else {
+                        LogUtil.e("0.0","error:请求回调失败！！！");
+                    }
+                }
+            });
         }
     }
 }
