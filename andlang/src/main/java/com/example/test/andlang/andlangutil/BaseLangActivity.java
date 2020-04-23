@@ -32,6 +32,7 @@ import com.example.test.andlang.util.ShakeSensorUtil;
 import com.example.test.andlang.util.StatusBarUtils;
 import com.example.test.andlang.util.ToastUtil;
 import com.example.test.andlang.util.imageload.GlideUtil;
+import com.squareup.leakcanary.RefWatcher;
 import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Field;
@@ -287,11 +288,13 @@ public abstract class BaseLangActivity<T extends BaseLangPresenter,K extends Vie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if(BaseLangUtil.isApkInDebug()) {
-//            //内存检测
-//            RefWatcher refWatcher = BaseLangApplication.getRefWatcher(this);
-//            refWatcher.watch(this);
-//        }
+        if(BaseLangUtil.isApkInDebug()) {
+            //内存检测
+            RefWatcher refWatcher = BaseLangApplication.getRefWatcher(this);
+            if(refWatcher!=null) {
+                refWatcher.watch(this);
+            }
+        }
 
         fixInputMethodManagerLeak(this);//修复键盘内存溢出
         fixHuaWeiMemoryLeak();//修复华为手机内存泄露

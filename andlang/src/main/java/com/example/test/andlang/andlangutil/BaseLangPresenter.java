@@ -15,6 +15,23 @@ public abstract class BaseLangPresenter {
     public ViewDataBinding viewData;
     public BaseLangActivity activity;
     public BaseLangFragment fragment;
+    public BaseLangPresenter(BaseLangActivity activity){
+        try {
+            this.activity=activity;
+        }catch (Exception e){
+            Log.d("0.0",e.getMessage());
+        }
+        initModel();
+    }
+    public BaseLangPresenter(BaseLangFragment fragment,BaseLangActivity activity){
+        try {
+            this.activity=activity;
+            this.fragment=fragment;
+        }catch (Exception e){
+            Log.d("0.0",e.getMessage());
+        }
+        initModel();
+    }
     public BaseLangPresenter(BaseLangActivity activity,ViewDataBinding viewData){
         try {
             this.viewData=viewData;
