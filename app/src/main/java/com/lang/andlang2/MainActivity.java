@@ -1,9 +1,11 @@
 package com.lang.andlang2;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.widget.TextView;
 
 import com.example.test.andlang.andlangutil.BaseLangActivity;
+import com.example.test.andlang.util.ActivityUtil;
 import com.example.test.andlang.util.BaseLangUtil;
 import com.example.test.andlang.util.LogUtil;
 import com.example.test.andlang.util.ToastUtil;
@@ -21,11 +23,7 @@ public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
     private MainBean mainBean;
     @Override
     public void notifyView(String tag) {
-        if(Constants.GET_VERSION.equals(tag)){
-            BaseLangUtil.isMainThread("MainActivity::notifyView");
-            ToastUtil.show(MainActivity.this,"请求结果返回");
-            tv_text_value.setText("请求结果返回");
-        }
+
     }
     @Override
     public void dataBindingView() {
@@ -39,7 +37,7 @@ public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
     public void initView() {
 
         initLoading();
-        initTitleBar(false,"新架构");
+        initTitleBar(true,"新架构");
     }
 
     @Override
@@ -61,6 +59,13 @@ public class MainActivity extends BaseLangActivity<MainPersenter,MainBinding> {
 
         showWaitDialog();
         presenter.reqVersion();
+    }
+
+    @OnClick(R.id.btn_jump)
+    public void clickJump(){
+        //跳转
+        Intent intent=new Intent(MainActivity.this,MainActivity.class);
+        ActivityUtil.getInstance().start(MainActivity.this,intent);
     }
 
 }

@@ -15,6 +15,10 @@ public class AndLangApp extends BaseLangApplication {
     }
 
     public void initData() {
+
+        //检测是否内存溢出
+        initLeakCanry();
+
         //MMKV SharePreference 数据迁移
         //未使用SharePreference无须使用数据迁移
         //使用SharePreference须数据迁移 否则之前保存的数据不能同步

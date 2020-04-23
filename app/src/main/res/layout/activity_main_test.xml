@@ -42,6 +42,16 @@
                 android:text="修改"
                 android:layout_centerHorizontal="true" />
 
+            <Button
+                android:id="@+id/btn_jump"
+                android:layout_below="@+id/btn_change"
+                android:layout_marginTop="20dp"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跳过"
+                android:layout_centerHorizontal="true" />
+
             <include layout="@layout/lang_common_loading" />
         </RelativeLayout>
 

@@ -4,8 +4,12 @@ import android.databinding.ViewDataBinding;
 
 import com.example.test.andlang.andlangutil.BaseLangActivity;
 import com.example.test.andlang.andlangutil.BaseLangPresenter;
+import com.example.test.andlang.util.BaseLangUtil;
 import com.example.test.andlang.util.ToastUtil;
+import com.lang.andlang2.MainActivity;
+import com.lang.andlang2.MainBinding;
 import com.lang.andlang2.model.MainModel;
+import com.lang.andlang2.model.api.MainBean;
 import com.lang.andlang2.util.Constants;
 
 public class MainPersenter extends BaseLangPresenter{
@@ -29,6 +33,13 @@ public class MainPersenter extends BaseLangPresenter{
 //        if(Constants.GET_VERSION.equals(tag)){
 //            ToastUtil.show(activity,"MainPersenter请求结果返回");
 //        }
+        if(Constants.GET_VERSION.equals(tag)){
+            BaseLangUtil.isMainThread("MainPersenter::notifyView");
+            ToastUtil.show(activity,"请求结果返回");
+            MainBean mainBean=new MainBean();
+            mainBean.title.set("请求结果返回");
+            ((MainBinding)viewData).setMyBean(mainBean);
+        }
         super.notifyView(tag);
     }
 }
