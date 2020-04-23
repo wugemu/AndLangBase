@@ -38,6 +38,8 @@ import com.example.test.andlang.util.imageload.ImageLoadUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mmkv.MMKV;
 import com.umeng.analytics.MobclickAgent;
@@ -68,6 +70,8 @@ public class BaseLangApplication extends Application {
     private boolean isRunInBackground;//前台后台运行标示
     private int appCount;
 
+    private RefWatcher refWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -84,6 +88,20 @@ public class BaseLangApplication extends Application {
         MMKV.initialize(this);
         mApp = this;
         LogUtil.e("0.0", "版本号：V" + VersionUtil.getVersionName(this));
+    }
+
+    public void initLeakCanry(){
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        refWatcher=LeakCanary.install(this);
+    }
+
+    public static RefWatcher getRefWatcher(Context context) {
+        BaseLangApplication leakApplication = (BaseLangApplication) context.getApplicationContext();
+        return leakApplication.refWatcher;
     }
 
     //数据临时文件设置
