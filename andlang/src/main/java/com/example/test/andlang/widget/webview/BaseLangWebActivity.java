@@ -31,15 +31,15 @@ import butterknife.BindView;
  * Created by root on 18-4-2.
  */
 
-public abstract class BaseLangWebActivity extends BaseLangActivity<BaseLangPresenter,BaseLangWebBinding> {
+public abstract class BaseLangWebActivity extends BaseLangActivity<BaseLangPresenter> {
     @BindView(R2.id.baselang_webview)
     WebView baselang_webview;
 
     private Class childClass;
 
     @Override
-    public void dataBindingView() {
-        viewDataBind=DataBindingUtil.setContentView(this,R.layout.activity_baselang_web);
+    public int getLayoutId() {
+        return R.layout.activity_baselang_web;
     }
 
     @Override

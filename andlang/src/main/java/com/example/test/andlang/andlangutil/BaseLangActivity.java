@@ -46,9 +46,8 @@ import butterknife.ButterKnife;
  * Created by lang on 18-3-7.
  */
 
-public abstract class BaseLangActivity<T extends BaseLangPresenter,K extends ViewDataBinding> extends AppCompatActivity{
+public abstract class BaseLangActivity<T extends BaseLangPresenter> extends AppCompatActivity{
     public T presenter;
-    public K viewDataBind;
     public RelativeLayout rlLoading;
     private ImageView ivLoading;
 
@@ -56,7 +55,7 @@ public abstract class BaseLangActivity<T extends BaseLangPresenter,K extends Vie
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBindingView();
+        setContentView(getLayoutId());
         ButterKnife.bind(this);
         GlideUtil.getInstance().initDefResId(this,"");
         ActivityUtil.getInstance().pushOneActivity(this);
@@ -474,7 +473,7 @@ public abstract class BaseLangActivity<T extends BaseLangPresenter,K extends Vie
     }
 
     public abstract void notifyView(String tag);
-    public abstract void dataBindingView();
+    public abstract int getLayoutId();
     public abstract void initView();
     public abstract void initPresenter();
     public abstract void initData();
