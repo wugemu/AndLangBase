@@ -15,8 +15,8 @@ import com.lang.andlang2.util.Constants;
 public class MainPersenter extends BaseLangPresenter{
     private  MainModel mainModel;
 
-    public MainPersenter(BaseLangActivity activity, ViewDataBinding viewData) {
-        super(activity, viewData);
+    public MainPersenter(BaseLangActivity activity) {
+        super(activity);
     }
 
     @Override
@@ -33,13 +33,7 @@ public class MainPersenter extends BaseLangPresenter{
 //        if(Constants.GET_VERSION.equals(tag)){
 //            ToastUtil.show(activity,"MainPersenter请求结果返回");
 //        }
-        if(Constants.GET_VERSION.equals(tag)){
-            BaseLangUtil.isMainThread("MainPersenter::notifyView");
-            ToastUtil.show(activity,"请求结果返回");
-            MainBean mainBean=new MainBean();
-            mainBean.title.set("请求结果返回");
-            ((MainBinding)viewData).setMyBean(mainBean);
-        }
+        BaseLangUtil.isMainThread("MainPersenter::notifyView");
         super.notifyView(tag);
     }
 }
